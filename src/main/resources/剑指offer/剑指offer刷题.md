@@ -19,13 +19,18 @@
 >1.双指针方法;当首节点为目标节点时直接返回head.next;<br>
 2.否则循环判断cur,若cur！=null,pre=cur;cur=cur.next;<br>
 3.当cur=val时，直接跳过cur,pre.next=cur.next;这样即可删除cur节点
+> ![](.剑指offer刷题_images/cc747d33.png)
 
-![](.剑指offer刷题_images/cc747d33.png)
 ## Tree
 
 面试题07-重建二叉树
-
-
+> 1. 复制前序遍历数组，通过map保存中序遍历的各个节点的下标；
+> 2. 初始遍历节点`recur(0,0,inorder.length-1)`
+> 3. 创建树节点Node，根节点从前序遍历下标寻找 `new TreeNode(preorder[pre_root])`;
+> 4. 获取当前根节点在前序的下标 `int idx=map.get(preorder[pre_root])`;
+> 5. 当前树的左子树为 `root.left = recur(pre_root+1,left,idx-1)`;
+> 6. 当前树的右子树为`root.right =recur(pre_root+(idx-left)+1,idx+1,right)`;
+![](.剑指offer刷题_images/1aba5339.png)
 面试题26-树的子结构
 
 面试题27-二叉树的镜像
