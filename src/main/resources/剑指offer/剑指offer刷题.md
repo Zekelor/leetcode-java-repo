@@ -2,39 +2,81 @@
 
 ## LinkedList
 
-###面试题06-从尾到头打印链表 0520
+### 面试题06-从尾到头打印链表 0520
 
-###面试题22-链表中倒数第k个结点  0520
+### 面试题22-链表中倒数第k个结点 0520
 
-###面试题24-反转链表 0524 0628
+### 面试题24-反转链表 0524 0628
 
-###面试题25-合并两个排序的链表
+### 面试题25-合并两个排序的链表
 
-###面试题35-复杂链表的复制 
+### 面试题35-复杂链表的复制
+
 > (略复杂放弃)
 
-###面试题52-两个链表的第一个公共节点
+### 面试题52-两个链表的第一个公共节点
 
-###面试题18-删除链表的节点 
->1.双指针方法;当首节点为目标节点时直接返回head.next;<br>
+### 面试题18-删除链表的节点
+
+> 1.双指针方法;当首节点为目标节点时直接返回head.next;<br>
 2.否则循环判断cur,若cur！=null,pre=cur;cur=cur.next;<br>
 3.当cur=val时，直接跳过cur,pre.next=cur.next;这样即可删除cur节点
 > ![](.剑指offer刷题_images/cc747d33.png)
 
 ## Tree
 
-###面试题07-重建二叉树
+### 面试题07-重建二叉树
+
 > 1. 复制前序遍历数组，通过map保存中序遍历的各个节点的下标；
 > 2. 初始遍历节点`recur(0,0,inorder.length-1)`
 > 3. 创建树节点Node，根节点从前序遍历下标寻找 `new TreeNode(preorder[pre_root])`;
 > 4. 获取当前根节点在前序的下标 `int idx=map.get(preorder[pre_root])`;
 > 5. 当前树的左子树为 `root.left = recur(pre_root+1,left,idx-1)`;
 > 6. 当前树的右子树为`root.right =recur(pre_root+(idx-left)+1,idx+1,right)`;
-![](.剑指offer刷题_images/1aba5339.png)
+     ![](.剑指offer刷题_images/1aba5339.png)
 
-###面试题26-树的子结构
+### 面试题26-树的子结构
 
-面试题27-二叉树的镜像
+### 面试题27-二叉树的镜像(反转二叉树)
+
+> 1. 递归遍历；
+> 2. 复制当前子树的左子树，保存下来；
+> 3. 交换左右子树<br>
+     `root.left=root.right`<br>
+     `root.right=temp`
+> 4. 在做反转二叉树时方法如下：<br>
+```java
+/**
+ * 方法1
+ */
+public TreeNode invertTree(TreeNode root){
+     if(root==null){
+         return null;
+     }
+     TreeNode tempNode=root.left;
+     root.left=root.right;
+     root.right=tempNode;
+     
+     invertTree(root.left);
+     invertTree(root.right);
+     
+     return root;
+}
+
+/**
+ * 方法二
+ */
+public TreeNode mirrorTree(TreeNode root){
+   if(root==null){
+       return null;
+   }
+   TreeNode temp=root.left;
+
+   root.left=mirrorTree(root.right);
+   root.right=mirrorTree(temp);
+   return root;
+}
+```
 
 面试题32-1 -从上往下打印二叉树
 
@@ -110,13 +152,11 @@
 
 面试题19-正则表达式匹配(我用的暴力)
 
-
 ### 回溯
 
 面试题12-矩阵中的路径(BFS)
 
 面试题13-机器人的运动范围(DFS)
-
 
 ### 排序
 
@@ -124,13 +164,11 @@
 
 面试题40-最小的K个数(堆排序)
 
-
 ### 位运算
 
 面试题15-二进制中1的个数
 
 面试题16-数值的整数次方
-
 
 ### 其他算法
 

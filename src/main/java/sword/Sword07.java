@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author fxzou
  */
-public class Code07 {
+public class Sword07 {
     int[] preorder;
     Map<Integer, Integer> markMap = new HashMap<>();
 
@@ -33,6 +33,14 @@ public class Code07 {
         return recur(0, 0, inorder.length - 1);
     }
 
+    /**
+     * 生成二叉树
+     *
+     * @param pre_root
+     * @param in_left
+     * @param in_right
+     * @return
+     */
     TreeNode recur(int pre_root, int in_left, int in_right) {
         // 相等的话就是自己
         if (in_left > in_right) {
