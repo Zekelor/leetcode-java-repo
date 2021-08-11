@@ -89,6 +89,9 @@ public TreeNode recur(int pre_root,int in_left,int in_right){
 > 2. 同时还需要判断B树不为A的根节点的情况`recur(A,B)`
 ```java
 
+/**
+ * 判断是否时子结构的函数
+ */
 public boolean isSubStructure(TreeNode A,TreeNode B){
     if(A==null || B==null){
         return false;     
@@ -196,8 +199,50 @@ public int[] printTree(TreeNode root){
 ```
 
 ### 面试题32-2 -从上往下打印二叉树 2
+> 1. 与32题相同的思路；
+> 2. 不同点在打印时的分层操作：`for(int i=queue.size();i>0;i--)` 
+> 3. <font color=red> for循环的第一个条件只会运行一次，queue的长度是在变化的</font>
+```java
+/**
+ * 从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
+ * 给定二叉树: [3,9,20,null,null,15,7],
+ * 输出[[3],[9,20],[15,7]]
+ */
+public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> resultList =new ArrayList<>();
 
+        if(root==null){
+            return resultList;
+        }
+
+        Queue<TreeNode> queue =new LinkedList<TreeNode>(){{add(root);}};
+
+        while(!queue.isEmpty()){
+
+             List<Integer> array=new ArrayList<>();
+             
+             // for循环的第一个条件只会在初始化时运行一次
+             for(int i=queue.size();i>0;i--){
+                 TreeNode node =queue.poll();
+     
+                 array.add(node.val);
+     
+                 if(node.left!=null){
+                     queue.add(node.left);
+                 }
+     
+                 if(node.right!=null){
+                     queue.add(node.right);
+                 }
+             }
+        
+            resultList.add(array);
+        }
+        return resultList;
+}
+```
 ### 面试题32-3 -从上往下打印二叉树 3
+
 
 ### 面试题33-二叉搜索树的后序遍历序列
 
