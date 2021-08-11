@@ -33,9 +33,82 @@
 > 4. 获取当前根节点在前序的下标 `int idx=map.get(preorder[pre_root])`;
 > 5. 当前树的左子树为 `root.left = recur(pre_root+1,left,idx-1)`;
 > 6. 当前树的右子树为`root.right =recur(pre_root+(idx-left)+1,idx+1,right)`;
-     ![](.剑指offer刷题_images/1aba5339.png)
+
+```java
+// 存放中序遍历各个节点的索引map
+Map<Integer, Integer> map=new HashMap<>();
+
+// 存放前序遍历的全局变量
+int[]preorder;
+
+/**
+ * 构建二叉树的主结构
+ */
+public TreeNode buildTree(int[]preorder,int[]inorder){
+   this.preorder=preorder;
+   if(preorder==null||inorder==null){
+       return null;
+   }
+   // 遍历存储中序遍历的数组
+   for(int i=0;i<inorder.length;i++){
+        map.put(inorder[i],i);
+   }
+   return recur(0,0,inorder.length-1);
+}
+
+/**
+ * 根据当前的根节点索引位置 构建左右子树
+ */
+public TreeNode recur(int pre_root,int in_left,int in_right){
+    if(in_left > in_right){
+        return null;    
+    }    
+    TreeNode treeNode =new TreeNode(preorder[pre_root]);
+    
+    int idx=map.get(preorder[pre_root]);
+    
+    root.left = recur(preroot+1,in_left,idx-1);
+    // 这一步的根节点是当前的下标减去左子树的下标+1
+    root.right =recur(preroot+(idx-left)+1,idx+1,in_right);
+    
+    return treeNode;
+}
+```
 
 ### 面试题26-树的子结构
+
+> 1. 递归遍历;
+> 2. 输入TreeNode A 与B进行比较；
+> 3. 首先A B两颗树不能为空;
+> * __recur(A,B)函数：__
+> 1. 当B为空时返回true（优先判断）
+> 2. 判断是否子树的条件是:` A.val==B.val&&recur(A.left,B)&&recur(B,left)`
+> 3. 在此条件下对A进行遍历，B的值是固定的；
+> * __isSubStructure(A,B)函数：__
+> 1. 判断树B是A树的子节点因此要判断 `isSubStructure(A.left,B)||isSubStructure(A.right,B)`
+> 2. 同时还需要判断B树不为A的根节点的情况`recur(A,B)`
+```java
+
+public boolean isSubStructure(TreeNode A,TreeNode B){
+    if(A==null || B==null){
+        return false;     
+    }
+    
+    return recur(A,B)||isSubStructure(A.left,B)||isSubStructure(A.right,B);
+}
+
+public boolean recur(TreeNode A,TreeNode B ){
+    if(B == null){
+        return true;    
+    }
+    if(A == null){
+        return false;
+    }
+    
+    return A.val==B.val&&recur(A.left,B.left)&&recur(A.right,B.right);
+}
+
+```
 
 ### 面试题27-二叉树的镜像(反转二叉树)
 
@@ -45,13 +118,14 @@
      `root.left=root.right`<br>
      `root.right=temp`
 > 4. 在做反转二叉树时方法如下：<br>
+
 ```java
 /**
  * 方法1
  */
 public TreeNode invertTree(TreeNode root){
      if(root==null){
-         return null;
+        return null;
      }
      TreeNode tempNode=root.left;
      root.left=root.right;
@@ -67,38 +141,79 @@ public TreeNode invertTree(TreeNode root){
  * 方法二
  */
 public TreeNode mirrorTree(TreeNode root){
-   if(root==null){
+     if(root==null){
        return null;
-   }
-   TreeNode temp=root.left;
-
-   root.left=mirrorTree(root.right);
-   root.right=mirrorTree(temp);
-   return root;
+     }
+     TreeNode temp=root.left;
+     
+     root.left=mirrorTree(root.right);
+     root.right=mirrorTree(temp);
+     return root;
 }
 ```
 
-面试题32-1 -从上往下打印二叉树
+### 面试题32-1 -从上往下打印二叉树
+> 1. BFS广度优先搜索；
+> 2. 创建队列Queue来存储各个节点；
+> 3. 当queue不为空时 poll当前节点，将节点值塞到数组arraylist中；
+> 4. 当左右节点不为空时将左右节点放到queue中
+> 5. 遍历打印arraylist中存放的值
+```java
+public int[] printTree(TreeNode root){
+    if(root==null){
+        return new int[0];
+    }
+    // 初始化队列 内部类中将root赋值
+    Queue<TreeNode> queue =new LinkedList<>(){{add(root)}};
+    // 创建存放队列弹出的节点
+    ArrayList<Integer> arrayList =new ArrayList(){};
 
-面试题32-2 -从上往下打印二叉树 2
+   // BFS循环
+   while (!queue.isEmpty()) {
+        // 队首元素出列
+        TreeNode node = queue.poll();
+        // 将node.val添加至打印的数组中
+        arrayList.add(node.val);
 
-面试题32-3 -从上往下打印二叉树 3
+        // 添加左右子节点
+        if (node.left != null) {
+            queue.add(node.left);
+        }
 
-面试题33-二叉搜索树的后序遍历序列
+        if (node.right != null) {
+            queue.add(node.right);
+        }
+   }
+    
+    int[] result =new int[arrayList.size()];
+   
+    for(in i=0;i<arrayList.size();i++){
+        result[i] =arrayList.get(i);
+    }     
+    
+    return result;
+}
+```
 
-面试题34-二叉树中和为某一值的路径
+### 面试题32-2 -从上往下打印二叉树 2
 
-面试题36-二叉搜索树与双向链表
+### 面试题32-3 -从上往下打印二叉树 3
 
-面试题55-1-二叉树的深度
+### 面试题33-二叉搜索树的后序遍历序列
 
-面试题55-2-平衡二叉树
+### 面试题34-二叉树中和为某一值的路径
 
-面试题28-对称的二叉树
+### 面试题36-二叉搜索树与双向链表
 
-面试题37-序列化二叉树
+### 面试题55-1-二叉树的深度
 
-面试题54-二叉搜索树的第k大节点
+### 面试题55-2-平衡二叉树
+
+### 面试题28-对称的二叉树
+
+### 面试题37-序列化二叉树
+
+### 面试题54-二叉搜索树的第k大节点
 
 ## Stack & Queue
 
