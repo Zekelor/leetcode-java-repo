@@ -82,7 +82,7 @@ public TreeNode recur(int pre_root,int in_left,int in_right){
 > 3. 首先A B两颗树不能为空;
 > * __recur(A,B)函数：__
 > 1. 当B为空时返回true（优先判断）
-> 2. 判断是否子树的条件是:` A.val==B.val&&recur(A.left,B)&&recur(B,left)`
+> 2. 判断是否子树的条件是:` A.val==B.val&&recur(A.left,B.left)&&recur(A.right,B.right)`
 > 3. 在此条件下对A进行遍历，B的值是固定的；
 > * __isSubStructure(A,B)函数：__
 > 1. 判断树B是A树的子节点因此要判断 `isSubStructure(A.left,B)||isSubStructure(A.right,B)`
@@ -243,8 +243,77 @@ public List<List<Integer>> levelOrder(TreeNode root) {
 ```
 ### 面试题32-3 -从上往下打印二叉树 3
 
+> 1. 与前两题类似，这次条件是之字型的打印；
+> 2. 思路是在第二题的基础上进行标识符的判断；
+> 3. 这里用到了`LinkedList`队首和队尾的机制,先进后出，`addLast`放在队尾，`addFirst`放在队首；
+> 4. 判断每层的标识符用取余来计算奇偶，`resultList%2==0`
+```java
+public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> resultList = new ArrayList<>();
 
+        if (root == null) {
+            return resultList;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<TreeNode>() {{
+            add(root);
+        }};
+
+        while (!queue.isEmpty()) {
+            LinkedList<Integer> temp = new LinkedList<>();
+
+             for (int i = queue.size(); i > 0; i--) {
+                  TreeNode node = queue.poll();
+          
+                  if (resultList.size() % 2 == 0) {
+                    temp.addLast(node.val);
+                  } else {
+                    temp.addFirst(node.val);
+                  }
+                  if (node.left != null) {
+                    queue.add(node.left);
+                  }
+          
+                  if (node.right != null) {
+                    queue.add(node.right);
+                  }
+            }
+            resultList.add(temp);
+        }
+        return resultList;
+}
+```
 ### 面试题33-二叉搜索树的后序遍历序列
+> 1. 本题采用栈的方式进行遍历方式；
+> 2. 外层for循环从高到低进行循环，把传入的数组压栈；
+> 3. 因为时后续遍历，初始化root节点值为正无穷`int root =Integer.MAX_VALUE`
+```java
+for(int i=preorder.length-1;i>=0;i--){
+    
+    stack.add(preorder.[i]);
+}
+```
+> 4. 判断是否为子树时当`preorder[i]>root` 返回false，
+> 5. 迭代遍历栈进行判断
+```java
+public boolean verifyPostorder(int[] postorder){
+    Stack<Integer> stack = new Stack<>();
+    int root = Integer.MAX_VALUE;
+    
+    for(int i = postorder.length-1; i>=0; i--){
+        if(postorder[i] > root){
+            return false;
+        }     
+        
+        while(!stack.isEmpty() && stack.peek() > postorder[i]){
+            root=stack.pop();
+        }
+        stack.add(postorder[i]);
+    }
+    
+    return true;
+}
+```
 
 ### 面试题34-二叉树中和为某一值的路径
 
