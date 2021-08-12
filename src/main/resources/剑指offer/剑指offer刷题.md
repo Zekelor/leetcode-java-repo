@@ -316,6 +316,42 @@ public boolean verifyPostorder(int[] postorder){
 ```
 
 ### 面试题34-二叉树中和为某一值的路径
+> 1. 本问题是典型的二叉树方案搜索，使用<font color=red><strong>*回溯法解决*</strong></font>;
+> 2. 主要分为 *先序遍历* 和*路径记录* 两部分；
+```java
+     LinkedList<List<Integer>> resultList =new LinkedList<>();
+     LinkedList<Integer> path = new LinkedList<>();
+
+     public List<List<Integer>> pathSum(TreeNode root,int target){
+            
+         recur(root,target);
+         
+         return resultList;
+     }
+     
+     public void recur(TreeNode root,target){
+         
+        if(root==null){
+            return;
+        }    
+        
+        path.add(root.val);
+        
+        target -=root.val;
+        
+        // 当target值为0 且左右节点为空时表示该路径为符合条件的最深路径
+        if(target == 0 && root.left == null && root.right == null){
+            resultList.add(new LinkedList(path));
+        }
+        
+        recur(root,target);
+        
+        recur(root,target);
+        
+        path.removeLast();
+     }
+```
+
 
 ### 面试题36-二叉搜索树与双向链表
 
