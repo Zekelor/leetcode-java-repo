@@ -351,9 +351,65 @@ public boolean verifyPostorder(int[] postorder){
         path.removeLast();
      }
 ```
-
-
 ### 面试题36-二叉搜索树与双向链表
+> 1. 考察dfs中序遍历；(具体应该是二叉树的中序遍历，二叉树的中序和后序都可以看作是DFS，因为他们在找到叶子节点前一直遍历)
+> 2. 注意判断主函数的root是否为空，以及dfs迭代体中当前的节点是否为空;
+> 3. 中序遍历实现:
+```java
+public void dfs(Node root){
+    // 左
+    dfs(root.left);
+    // 中
+    print(root.val);
+    // 右
+    dfs(root.right);
+}
+```
+> 4. 基于中序遍历构建双向链表；
+> 5. 构建链表时，若`pre==null` 表示无左子树,代表正在访问链表的头节点，`head=cur`；
+> 6. 当`pre!=null`时，表示不在边界的节点上，此时修改链表的双向引用；
+```java
+pre.right = cur;
+cur.left = pre;
+```
+> 7. 保存当前cur节点的值，更新pre=cur,往前移位；
+> 8. 当dfs遍历完成后修改头尾指针`head.left = pre` pre指向尾节点；`pre.right = head` head指向头节点；
+```java
+Node pre,head;
+public Node treeToDoublyList(Node root){
+   if(root = =null){
+       return null;
+   }   
+   
+   dfs(root);
+   
+   head.left = pre;
+   pre.right = head;
+   
+   return head;
+}
+
+public void dfs(Node cur){
+   if(cur == null){
+       return;
+   }
+   
+   dfs(cur.left);
+   
+   if (pre == null){
+       head =cur;
+   } else {
+       pre.right = cur; 
+   }
+   
+   cur.left = pre;
+   
+   pre = cur;
+   
+   dfs(cur.right);
+   
+}
+```
 
 ### 面试题55-1-二叉树的深度
 
