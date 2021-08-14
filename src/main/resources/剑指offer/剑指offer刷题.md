@@ -7,6 +7,33 @@
 ### 面试题22-链表中倒数第k个结点 0520
 
 ### 面试题24-反转链表 0524 0628
+> 1. 双指针进行头尾节点的指向；
+> 2. 初始化`pre=null`;
+> 3. 保存head为cur `ListNode cur =head`;
+> 4. 当cur不为空时进行指针的指向反转;
+> 5. 保存下一个节点的值`tmp = cur.next`;
+> 6. 下一节点指向pre cur.next =pre;
+> 7. pre指针前移一位 `pre=cur`;
+> 8. 当前指针 cur指向之前保存的下一节点 `cur =tmp`;
+> 9. 最终返回pre开始的链表;
+```java
+/**
+ * 双指针反转
+ */
+public ListNode reverseListNode(ListNode head){
+    ListNode pre = null,cur = head;
+    
+    while(cur!=null){
+        ListNode temp = cur.next;
+        cur.next = pre;
+        pre = cur;
+        cur = tmp;
+    }
+    
+    return pre;
+}
+
+```
 
 ### 面试题25-合并两个排序的链表
 
@@ -33,7 +60,9 @@
 > 4. 获取当前根节点在前序的下标 `int idx=map.get(preorder[pre_root])`;
 > 5. 当前树的左子树为 `root.left = recur(pre_root+1,left,idx-1)`;
 > 6. 当前树的右子树为`root.right =recur(pre_root+(idx-left)+1,idx+1,right)`;
-
+> 7. __注意点：__
+>  * <font color=red>要判断迭代内部 `in_left > in_right` ;
+>  * 构造treeNode时的初始化: `TreeNode treeNode =new TreeNode()`</font>;
 ```java
 // 存放中序遍历各个节点的索引map
 Map<Integer, Integer> map=new HashMap<>();
@@ -60,6 +89,7 @@ public TreeNode buildTree(int[]preorder,int[]inorder){
  * 根据当前的根节点索引位置 构建左右子树
  */
 public TreeNode recur(int pre_root,int in_left,int in_right){
+    // 当左节点大于右节点时则返回  这边容易出错
     if(in_left > in_right){
         return null;    
     }    
@@ -158,9 +188,13 @@ public TreeNode mirrorTree(TreeNode root){
 ### 面试题32-1 -从上往下打印二叉树
 > 1. BFS广度优先搜索；
 > 2. 创建队列Queue来存储各个节点；
-> 3. 当queue不为空时 poll当前节点，将节点值塞到数组arraylist中；
-> 4. 当左右节点不为空时将左右节点放到queue中
-> 5. 遍历打印arraylist中存放的值
+> 3. 当queue不为空时 poll当前节点，将节点值塞到数组`arraylist`中；
+> 4. 当左右节点不为空时将左右节点放到 `queue` 中
+> 5. 遍历打印 arraylist 中存放的值
+> 6. <font color=red>注意点：<br>
+>    * 初始化 `Quene<TreeNode> queue =new LinkedList<>(){{add(root);}};`
+>    * 队列出列方法`queue.poll` 
+     </font>
 ```java
 public int[] printTree(TreeNode root){
     if(root==null){
@@ -283,7 +317,7 @@ public List<List<Integer>> levelOrder(TreeNode root) {
         return resultList;
 }
 ```
-### 面试题33-二叉搜索树的后序遍历序列
+### 面试题33-二叉搜索树的后序遍历序列(20210814 ac率较低，多回顾下)
 > 1. 本题采用栈的方式进行遍历方式；
 > 2. 外层for循环从高到低进行循环，把传入的数组压栈；
 > 3. 因为时后续遍历，初始化root节点值为正无穷`int root =Integer.MAX_VALUE`
@@ -315,7 +349,7 @@ public boolean verifyPostorder(int[] postorder){
 }
 ```
 
-### 面试题34-二叉树中和为某一值的路径
+### 面试题34-二叉树中和为某一值的路径（回溯部分略生硬）
 > 1. 本问题是典型的二叉树方案搜索，使用<font color=red><strong>*回溯法解决*</strong></font>;
 > 2. 主要分为 *先序遍历* 和*路径记录* 两部分；
 ```java
@@ -344,9 +378,9 @@ public boolean verifyPostorder(int[] postorder){
             resultList.add(new LinkedList(path));
         }
         
-        recur(root,target);
+        recur(root.left,target);
         
-        recur(root,target);
+        recur(root.right,target);
         
         path.removeLast();
      }
@@ -412,6 +446,7 @@ public void dfs(Node cur){
 ```
 
 ### 面试题55-1-二叉树的深度
+
 
 ### 面试题55-2-平衡二叉树
 
