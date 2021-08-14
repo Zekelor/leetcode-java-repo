@@ -446,6 +446,53 @@ public void dfs(Node cur){
 ```
 
 ### 面试题55-1-二叉树的深度
+> 1. 遍历二叉树，AC采用两种解法DFS和BFS；
+> 
+```java
+/**
+ * DFS遍历
+ */
+public int maxDepth(TreeNode root){
+    if(root == null){
+        return 0;    
+    }
+    
+    int maxLeft =maxDepth(root.left);
+    
+    int maxRight = maxDepth(root.right);
+    
+    return Math.max(maxLeft,maxRight) + 1;
+}
+
+/**
+ * BFS遍历
+ */
+public int maxDepth(TreeNode root){
+    if(root == null){
+      return 0;    
+    }
+    
+    Queue<Integer> queue =new LinkedList<>(){{add(root);}};
+    
+    int depth=0;
+    
+    while(!queue.isEmpty()){
+        depth++;
+        int n =queue.size();
+        for(int i=0;i<n;i++){
+            TreeNode node = queue.poll();
+            
+            if(node.left != null){
+                queue.add(node.left);    
+            }   
+            if(node.right != null){
+                queue.add(node.right);    
+            }
+        }
+    }
+    return depth;
+}
+```
 
 
 ### 面试题55-2-平衡二叉树
