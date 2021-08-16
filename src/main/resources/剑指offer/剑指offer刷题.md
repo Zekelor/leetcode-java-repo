@@ -317,7 +317,7 @@ public List<List<Integer>> levelOrder(TreeNode root) {
         return resultList;
 }
 ```
-### 面试题33-二叉搜索树的后序遍历序列(20210814 ac率较低，多回顾下)
+### 面试题33-二叉搜索树的后序遍历序列(20210814/0816 ac率较低，多回顾下)
 > 1. 本题采用栈的方式进行遍历方式；
 > 2. 外层for循环从高到低进行循环，把传入的数组压栈；
 > 3. 因为时后续遍历，初始化root节点值为正无穷`int root =Integer.MAX_VALUE`
@@ -375,6 +375,7 @@ public boolean verifyPostorder(int[] postorder){
         
         // 当target值为0 且左右节点为空时表示该路径为符合条件的最深路径
         if(target == 0 && root.left == null && root.right == null){
+            // 这步一定要new LinkedList(path) 不然path塞的是空
             resultList.add(new LinkedList(path));
         }
         
@@ -493,9 +494,75 @@ public int maxDepth(TreeNode root){
     return depth;
 }
 ```
-
-
 ### 面试题55-2-平衡二叉树
+> 1. 平衡二叉树，要求二叉树中的任意节点的左右子树深度不超过1；
+> 2. 有两种解法：从上往下的先序遍历和从下向上的后序遍历；
+> 3. 先序遍历与[55题] 思路一致，最终判断`isBalance(root.left) && isBalance(root.right) && Math.abs(root.left-root.right)<=1`
+> 4. 后续遍历采用的思想是 <font color=red>剪枝</font>；
+```java
+/**
+ * 方法一 递归 前序遍历
+ * 优点：较为能理解；
+ * 缺点：执行的复杂度过大
+ */
+public boolean isBalance(TreeNode root){
+    if(root==null){
+        return true;    
+    }    
+    
+    int leftDepth =maxDepth(root.left);
+    
+    int rightDepth =maxDepth(root.right);
+    
+    return isBalance(root.left) && isBalance(root.right) && Math.abs(left - right )<=1;
+    
+}
+
+public int maxDepth(TreeNode root){
+    if(root == null){
+        return 0;    
+    }    
+    
+    int maxLeft =maxDepth(root.left);
+    
+    int maxRight =maxDepth(root.right);
+    
+    return Math.max(maxLeft,maxRight)+1;
+}
+
+/**
+ * 方法二：剪枝 后续遍历
+ * 优点：时间复杂度O(N)
+ * 缺点：较为难理解
+ */
+public boolean isBalance(TreeNode root){
+    
+    return recur(root)!=-1;
+}
+
+public int recur(TreeNode root){
+   if( root == null) {
+        return true;
+   }
+   
+   int left =recur(root.left);
+   
+   if(left == -1){
+       return -1;
+   }
+   
+   int right =recur(root.right);
+   
+   if(right == -1){
+        return -1;    
+   }
+   
+   return Math.abs(root.left-root.right) < 2 ? Math.max(root.left,root.right) + 1 : -1;
+}
+
+```
+
+
 
 ### 面试题28-对称的二叉树
 
