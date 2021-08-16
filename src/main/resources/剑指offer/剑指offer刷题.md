@@ -562,8 +562,53 @@ public int recur(TreeNode root){
 
 ```
 ### 面试题28-对称的二叉树
+<b>核心思路</b>
+* 对称二叉树定义： 对于树中 任意两个对称节点 LL 和 RR ，一定有：
+     * <mark>_L.val = R.valL.val=R.val_ ：即此两对称节点值相等。
+     * <mark>_L.left.val = R.right.valL.left.val=R.right.val_ ：即 LL 的 左子节点 和 RR 的 右子节点 对称；
+     * <marK>_L.right.val = R.left.valL.right.val=R.left.val_ ：即 LL 的 右子节点 和 RR 的 左子节点 对称。
 
+`isSymmetric(root)`
+     
+* <b>特例处理</b>： 若根节点 root 为空，则直接返回 true 。
+* <b>返回值</b>： 即 `recur(root.left, root.right)` ;
 
+`recur(root.left,root.right)`
+
+* <b>终止条件</b>
+
+     * `left==null && right==null` 左右节点越过叶节点，或者是当前是最后的节点，则返回 _true_
+     * `left!=null || right !=null || left.val!=right.val `  left或者right中只有一个越过叶节点 或者左右节点的值不相等，返回 _false_
+
+* <b>递推条件</b>
+     * `recur(left.left,right.right) && recur(left.right,right.left);`
+```java
+/*
+ * 主函数
+ */
+public boolean isSymmetric(TreeNode root){
+    if(root == null){
+        return true;     
+    }
+    
+    return recur(root.left,root.right);
+}
+
+/*
+ * 递归函数
+ */
+public boolean recur(TreeNode left,TreeNode.right){
+    if(left==null && right == null){
+        return true;    
+    }    
+    
+    if(left == null || right == null || left.val != right.val){
+        return false;    
+    }
+    
+    return recur(left.left,right.right) && recur(left.right,right.left);
+}
+```
 
 ### 面试题37-序列化二叉树
 
