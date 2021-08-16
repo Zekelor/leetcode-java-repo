@@ -7,7 +7,7 @@ import common.TreeNode;
  * @date 2021/8/16
  * @since IntelliJ IDEA
  */
-public class SwordTwo {
+public class Sword55Two {
 
     public boolean isBalance(TreeNode root){
 
