@@ -561,10 +561,9 @@ public int recur(TreeNode root){
 }
 
 ```
-
-
-
 ### 面试题28-对称的二叉树
+
+
 
 ### 面试题37-序列化二叉树
 
