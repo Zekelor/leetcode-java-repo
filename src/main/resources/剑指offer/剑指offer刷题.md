@@ -1,3 +1,36 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [数据结构类题目](#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%B1%BB%E9%A2%98%E7%9B%AE)
+  - [LinkedList](#linkedlist)
+    - [面试题06-从尾到头打印链表 0520](#%E9%9D%A2%E8%AF%95%E9%A2%9806-%E4%BB%8E%E5%B0%BE%E5%88%B0%E5%A4%B4%E6%89%93%E5%8D%B0%E9%93%BE%E8%A1%A8-0520)
+    - [面试题22-链表中倒数第k个结点 0520](#%E9%9D%A2%E8%AF%95%E9%A2%9822-%E9%93%BE%E8%A1%A8%E4%B8%AD%E5%80%92%E6%95%B0%E7%AC%ACk%E4%B8%AA%E7%BB%93%E7%82%B9-0520)
+    - [面试题24-反转链表 0524 0628](#%E9%9D%A2%E8%AF%95%E9%A2%9824-%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8-0524-0628)
+  - [TreeNode](#treenode)
+    - [面试题26-树的子结构](#%E9%9D%A2%E8%AF%95%E9%A2%9826-%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84)
+    - [面试题32-1 -从上往下打印二叉树](#%E9%9D%A2%E8%AF%95%E9%A2%9832-1--%E4%BB%8E%E4%B8%8A%E5%BE%80%E4%B8%8B%E6%89%93%E5%8D%B0%E4%BA%8C%E5%8F%89%E6%A0%91)
+    - [面试题32-3 -从上往下打印二叉树 3](#%E9%9D%A2%E8%AF%95%E9%A2%9832-3--%E4%BB%8E%E4%B8%8A%E5%BE%80%E4%B8%8B%E6%89%93%E5%8D%B0%E4%BA%8C%E5%8F%89%E6%A0%91-3)
+    - [面试题36-二叉搜索树与双向链表](#%E9%9D%A2%E8%AF%95%E9%A2%9836-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E4%B8%8E%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8)
+    - [面试题55-2-平衡二叉树](#%E9%9D%A2%E8%AF%95%E9%A2%9855-2-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91)
+    - [面试题37-序列化二叉树](#%E9%9D%A2%E8%AF%95%E9%A2%9837-%E5%BA%8F%E5%88%97%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91)
+    - [面试题54-二叉搜索树的第k大节点](#%E9%9D%A2%E8%AF%95%E9%A2%9854-%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E7%9A%84%E7%AC%ACk%E5%A4%A7%E8%8A%82%E7%82%B9)
+  - [Stack & Queue](#stack--queue)
+  - [Heap](#heap)
+  - [Hash Table](#hash-table)
+  - [图](#%E5%9B%BE)
+- [具体算法类题目](#%E5%85%B7%E4%BD%93%E7%AE%97%E6%B3%95%E7%B1%BB%E9%A2%98%E7%9B%AE)
+    - [斐波那契数列](#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97)
+    - [搜索算法](#%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95)
+    - [全排列](#%E5%85%A8%E6%8E%92%E5%88%97)
+    - [动态规划](#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92)
+    - [回溯](#%E5%9B%9E%E6%BA%AF)
+    - [排序](#%E6%8E%92%E5%BA%8F)
+    - [位运算](#%E4%BD%8D%E8%BF%90%E7%AE%97)
+    - [其他算法](#%E5%85%B6%E4%BB%96%E7%AE%97%E6%B3%95)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # 数据结构类题目
 
 ## LinkedList
@@ -48,9 +81,8 @@ public ListNode reverseListNode(ListNode head){
 > 1.双指针方法;当首节点为目标节点时直接返回head.next;<br>
 2.否则循环判断cur,若cur！=null,pre=cur;cur=cur.next;<br>
 3.当cur=val时，直接跳过cur,pre.next=cur.next;这样即可删除cur节点
-> ![](.剑指offer刷题_images/cc747d33.png)
 
-## Tree
+## TreeNode
 
 ### 面试题07-重建二叉树
 
@@ -640,7 +672,7 @@ public boolean recur(TreeNode left,TreeNode.right){
 
 面试题13-机器人的运动范围(DFS)
 
-## 具体算法类题目
+# 具体算法类题目
 
 ### 斐波那契数列
 
