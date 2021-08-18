@@ -526,7 +526,7 @@ public int maxDepth(TreeNode root){
     return depth;
 }
 ```
-### 面试题55-2-平衡二叉树
+### 面试题55-2-平衡二叉树（后序遍历的剪枝操作较为生硬）
 > 1. 平衡二叉树，要求二叉树中的任意节点的左右子树深度不超过1；
 > 2. 有两种解法：从上往下的先序遍历和从下向上的后序遍历；
 > 3. 先序遍历与[55题] 思路一致，最终判断`isBalance(root.left) && isBalance(root.right) && Math.abs(root.left-root.right)<=1`
@@ -574,7 +574,7 @@ public boolean isBalance(TreeNode root){
 
 public int recur(TreeNode root){
    if( root == null) {
-        return true;
+        return 0;
    }
    
    int left =recur(root.left);
@@ -643,6 +643,118 @@ public boolean recur(TreeNode left,TreeNode.right){
 ```
 
 ### 面试题37-序列化二叉树
+
+__序列化（Serialize）__
+* 使用层序遍历BFS实现，其中要将越过叶节点的`null`也要打印出来
+
+* __算法流程__：
+  * __特例处理__： 若 root 为空，则直接返回空列表 "[]" ；
+  * __初始化__： 队列 queue （包含根节点 root ）；序列化列表 res ； 
+  * __层序遍历__： 当 queue 为空时跳出；
+  * __节点出队__，记为 node ；
+  * __若 node 不为空__：① 打印字符串 node.val ，② 将左、右子节点加入 queue ；
+  * __否则（若 node 为空）__：打印字符串 "null" ；
+  * __返回值__： 拼接列表，用 ',' 隔开，首尾添加中括号；
+
+__反序列化(Deserialize)__
+* 同序列化的流程，不同的是新增一个变量i来进行记录当前的下标；
+* 讲字符串转成字符串数组: `String[] array = data.substring(1,data.length-1).split(",")`;
+* __算法流程__：
+  * __特例处理__： 若 data 为空，直接返回 null ；
+  * __初始化__： 序列化列表 vals （先去掉首尾中括号，再用逗号隔开），指针 i = 1 ，根节点 root （值为 vals[0] ），队列 queue（包含 root ）；
+  * __按层构建__： 当 queue 为空时跳出；
+    * 1. 节点出队，记为 node ；
+    * 2. 构建 node 的左子节点：node.left 的值为 vals[i] ，并将 node.left 入队；
+    * 3. 执行 i += 1 ；
+    * 4. 构建 node 的右子节点：node.left 的值为 vals[i] ，并将 node.left 入队；
+    * 5. 执行 i += 1 ；
+  * __返回值__： 返回根节点 root 即可；
+```java
+/**
+     * Encodes a tree to a single string.
+     *
+     * @param root
+     * @return
+     */
+    public String serialize(TreeNode root) {
+
+        if (root == null) {
+            return "[]";
+        }
+
+        StringBuilder s = new StringBuilder().append("[");
+
+        Queue<TreeNode> queue = new LinkedList<TreeNode>() {{
+            add(root);
+        }};
+
+        while (!queue.isEmpty()) {
+            TreeNode temp = queue.poll();
+
+            if (temp != null) {
+
+                s.append(temp.val + ",");
+
+                // 这个地方不需要加非空的判断，若空的话需要往左右子树增加空的节点 null
+                queue.add(temp.left);
+                queue.add(temp.right);
+
+            } else {
+                s.append("null,");
+            }
+
+        }
+
+        String resultStr = s.deleteCharAt(s.length() - 1).toString();
+
+        resultStr += "]";
+        return resultStr;
+    }
+
+    /**
+     * Decodes your encoded data to tree.
+     *
+     * @param data
+     * @return
+     */
+    public static TreeNode deserialize(String data) {
+        if ("[]".equals(data)) {
+            return null;
+        }
+
+        String[] array = data.substring(1, data.length() - 1).split(",");
+
+
+        TreeNode root = new TreeNode(Integer.parseInt(array[0]));
+
+        Queue<TreeNode> queue = new LinkedList<TreeNode>() {{
+            add(root);
+        }};
+
+        int i = 1;
+
+        // 关于这边的数组越界问题，最好增加个i<array.length的判断
+        while (!queue.isEmpty() && i < array.length) {
+            TreeNode temp = queue.poll();
+
+            if (!"null".equals(array[i])) {
+                temp.left = new TreeNode(Integer.parseInt(array[i]));
+                queue.add(temp.left);
+            }
+
+            i++;
+
+            if (!"null".equals(array[i])) {
+                temp.right = new TreeNode(Integer.parseInt(array[i]));
+                queue.add(temp.right);
+            }
+            i++;
+        }
+
+        return root;
+
+    }
+```
 
 ### 面试题54-二叉搜索树的第k大节点
 
