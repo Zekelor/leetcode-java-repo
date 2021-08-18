@@ -757,6 +757,95 @@ __反序列化(Deserialize)__
 ```
 
 ### 面试题54-二叉搜索树的第k大节点
+> 本文解法基于此性质：二叉搜索树的中序遍历为 <strong>递增序列</strong> 。
+
+__解法一__
+* dfs中序遍历的倒序为递减数组；
+```java
+public void dfs(TreeNode root){
+    dfs(root.right);
+    System.out.println(root.val);
+    dfs(root.left);
+}
+```
+* 递归解析
+  * 1. __终止条件__： 当节点 root 为空（越过叶节点），则直接返回；
+  * 2. __递归右子树__： 即 _dfs(root.right)_ ；
+  * 3. __三项工作__：
+    * 1. 提前返回： 若 _k = 0_ ，代表已找到目标节点，无需继续遍历，因此直接返回；
+    * 2. 统计序号： 执行 _k = k - 1_ （即从 _k_ 减至 _0_ ）；
+    * 3. 记录结果： 若 _k = 0_，代表当前节点为第 k 大的节点，因此记录 _res = root.val_；
+    * 4. 递归左子树： 即 _dfs(root.left)_ ；
+  
+```java
+/**
+     * result定义全局
+     */
+    int result = 0;
+    /**
+     * 形参k不能随着迭代进行改变，因此引用全局的K值
+     */
+    int k = 0;
+
+    public int kthLargestMethod1(TreeNode root, int k) {
+        // 初始化变量k
+        this.k = k;
+
+        dfs1(root);
+
+        return result;
+    }
+
+    public void dfs1(TreeNode root) {
+
+        // root为null判断的是当前节点是否为空，k为0是特殊情况提前返回
+        if (root == null || k == 0) {
+            return;
+        }
+
+        dfs1(root.right);
+
+        if (--k == 0) {
+            result = root.val;
+            return;
+        }
+
+        dfs1(root.left);
+    }
+
+```
+___
+__解法二__
+* dfs遍历是递增的数组，因此取数组的第 ___array.size() - k___ 个下标即为目标数
+```java
+    /**
+     * 解法二
+     */
+    List<Integer> array = new ArrayList<>();
+
+    public int kthLargest2(TreeNode root, int k) {
+        if (root == null) {
+            return 0;
+        }
+
+        return array.get(array.size() - k);
+    }
+
+    public void dfs(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+
+        dfs(node.left);
+
+        array.add(node.val);
+
+        dfs(node.right);
+    }
+
+```
+
+
 
 ## Stack & Queue
 
