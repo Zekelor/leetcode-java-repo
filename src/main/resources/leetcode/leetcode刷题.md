@@ -1,6 +1,31 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [ListNode](#listnode)
+  - [25.K个一组翻转链表](#25k%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8)
+- [Tree](#tree)
+  - [124.二叉树的最大路径和](#124%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+## Hash相关
+
+### 1.两数之和
+
+### q387.字符串中的第一个唯一字符
+
+
+## 链表操作
+### q2.两数相加
+### q19.删除链表的倒数第N个节点
+### q25.k个一组翻转链表
+### q61.旋转链表
+### q138.复制带随机指针的链表
+### q206.反转链表
+
 ## Tree
 
-### 124.二叉树的最大路径和
+### q124.二叉树的最大路径和
 
 > 求最大路径，可以理解为求二叉树从根节点到叶子节点的最大深度综合，因此考虑dfs遍历
 
@@ -60,4 +85,21 @@ public class Lc124 {
     }
 }
 ```
+
+## 双指针遍历/滑动窗口
+###q3_无重复字符的最长子串
+###q11_盛最多水的容器
+###q15_三数之和
+###q16_最接近的三数之和
+###q26_删除排序数组中的重复项
+###q42_接雨水
+###q121_买卖股票的最佳时机
+###q209_长度最小的子数组
+
+## 快慢指针遍历
+###q141_环形链表
+###q202_快乐数
+###q876_链表的中间结点
+
+
 

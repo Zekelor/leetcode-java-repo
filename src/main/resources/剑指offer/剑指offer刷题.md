@@ -121,44 +121,46 @@ public ListNode reverseListNode(ListNode head){
 >  * <font color=red>要判断迭代内部 `in_left > in_right` ;
 >  * 构造treeNode时的初始化: `TreeNode treeNode =new TreeNode()`</font>;
 ```java
-// 存放中序遍历各个节点的索引map
-Map<Integer, Integer> map=new HashMap<>();
+public class Solution {
+  // 存放中序遍历各个节点的索引map
+  Map<Integer, Integer> map = new HashMap<>();
 
-// 存放前序遍历的全局变量
-int[]preorder;
+  // 存放前序遍历的全局变量
+  int[] preorder;
 
-/**
- * 构建二叉树的主结构
- */
-public TreeNode buildTree(int[]preorder,int[]inorder){
-   this.preorder=preorder;
-   if(preorder==null||inorder==null){
-       return null;
-   }
-   // 遍历存储中序遍历的数组
-   for(int i=0;i<inorder.length;i++){
-        map.put(inorder[i],i);
-   }
-   return recur(0,0,inorder.length-1);
-}
+  /**
+   * 构建二叉树的主结构
+   */
+  public TreeNode buildTree(int[] preorder, int[] inorder) {
+    this.preorder = preorder;
+    if (preorder == null || inorder == null) {
+      return null;
+    }
+    // 遍历存储中序遍历的数组
+    for (int i = 0; i < inorder.length; i++) {
+      map.put(inorder[i], i);
+    }
+    return recur(0, 0, inorder.length - 1);
+  }
 
-/**
- * 根据当前的根节点索引位置 构建左右子树
- */
-public TreeNode recur(int pre_root,int in_left,int in_right){
+  /**
+   * 根据当前的根节点索引位置 构建左右子树
+   */
+  public TreeNode recur(int pre_root, int in_left, int in_right) {
     // 当左节点大于右节点时则返回  这边容易出错
-    if(in_left > in_right){
-        return null;    
-    }    
-    TreeNode treeNode =new TreeNode(preorder[pre_root]);
-    
-    int idx=map.get(preorder[pre_root]);
-    
-    root.left = recur(preroot+1,in_left,idx-1);
+    if (in_left > in_right) {
+      return null;
+    }
+    TreeNode treeNode = new TreeNode(preorder[pre_root]);
+
+    int idx = map.get(preorder[pre_root]);
+
+    root.left = recur(preroot + 1, in_left, idx - 1);
     // 这一步的根节点是当前的下标减去左子树的下标+1
-    root.right =recur(preroot+(idx-left)+1,idx+1,in_right);
-    
+    root.right = recur(preroot + (idx - left) + 1, idx + 1, in_right);
+
     return treeNode;
+  }
 }
 ```
 
@@ -339,39 +341,41 @@ public List<List<Integer>> levelOrder(TreeNode root) {
 > 3. 这里用到了`LinkedList`队首和队尾的机制,先进后出，`addLast`放在队尾，`addFirst`放在队首；
 > 4. 判断每层的标识符用取余来计算奇偶，`resultList%2==0`
 ```java
-public List<List<Integer>> levelOrder(TreeNode root) {
-        List<List<Integer>> resultList = new ArrayList<>();
+public class Solution() {
+  public List<List<Integer>> levelOrder(TreeNode root) {
+    List<List<Integer>> resultList = new ArrayList<>();
 
-        if (root == null) {
-            return resultList;
+    if (root == null) {
+      return resultList;
+    }
+
+    Queue<TreeNode> queue = new LinkedList<TreeNode>() {{
+      add(root);
+    }};
+
+    while (!queue.isEmpty()) {
+      LinkedList<Integer> temp = new LinkedList<>();
+
+      for (int i = queue.size(); i > 0; i--) {
+        TreeNode node = queue.poll();
+
+        if (resultList.size() % 2 == 0) {
+          temp.addLast(node.val);
+        } else {
+          temp.addFirst(node.val);
+        }
+        if (node.left != null) {
+          queue.add(node.left);
         }
 
-        Queue<TreeNode> queue = new LinkedList<TreeNode>() {{
-            add(root);
-        }};
-
-        while (!queue.isEmpty()) {
-            LinkedList<Integer> temp = new LinkedList<>();
-
-             for (int i = queue.size(); i > 0; i--) {
-                  TreeNode node = queue.poll();
-          
-                  if (resultList.size() % 2 == 0) {
-                    temp.addLast(node.val);
-                  } else {
-                    temp.addFirst(node.val);
-                  }
-                  if (node.left != null) {
-                    queue.add(node.left);
-                  }
-          
-                  if (node.right != null) {
-                    queue.add(node.right);
-                  }
-            }
-            resultList.add(temp);
+        if (node.right != null) {
+          queue.add(node.right);
         }
-        return resultList;
+      }
+      resultList.add(temp);
+    }
+    return resultList;
+  }
 }
 ```
 ### 面试题33-二叉搜索树的后序遍历序列(20210814/0816 ac率较低，多回顾下)
@@ -379,30 +383,31 @@ public List<List<Integer>> levelOrder(TreeNode root) {
 > 2. 外层for循环从高到低进行循环，把传入的数组压栈；
 > 3. 因为时后续遍历，初始化root节点值为正无穷`int root =Integer.MAX_VALUE`
 ```java
-for(int i=preorder.length-1;i>=0;i--){
-    
+for(int i = preorder.length - 1;i >= 0;i--){
     stack.add(preorder.[i]);
 }
 ```
 > 4. 判断是否为子树时当`preorder[i]>root` 返回false，
 > 5. 迭代遍历栈进行判断
 ```java
-public boolean verifyPostorder(int[] postorder){
+public class Solution() {
+  public boolean verifyPostorder(int[] postorder) {
     Stack<Integer> stack = new Stack<>();
     int root = Integer.MAX_VALUE;
-    
-    for(int i = postorder.length-1; i>=0; i--){
-        if(postorder[i] > root){
-            return false;
-        }     
-        
-        while(!stack.isEmpty() && stack.peek() > postorder[i]){
-            root=stack.pop();
-        }
-        stack.add(postorder[i]);
+
+    for (int i = postorder.length - 1; i >= 0; i--) {
+      if (postorder[i] > root) {
+        return false;
+      }
+
+      while (!stack.isEmpty() && stack.peek() > postorder[i]) {
+        root = stack.pop();
+      }
+      stack.add(postorder[i]);
     }
-    
+
     return true;
+  }
 }
 ```
 
@@ -410,38 +415,40 @@ public boolean verifyPostorder(int[] postorder){
 > 1. 本问题是典型的二叉树方案搜索，使用<font color=red><strong>*回溯法解决*</strong></font>;
 > 2. 主要分为 *先序遍历* 和*路径记录* 两部分；
 ```java
-     LinkedList<List<Integer>> resultList =new LinkedList<>();
-     LinkedList<Integer> path = new LinkedList<>();
+public class Solution() {
+  LinkedList<List<Integer>> resultList = new LinkedList<>();
+  LinkedList<Integer> path = new LinkedList<>();
 
-     public List<List<Integer>> pathSum(TreeNode root,int target){
-            
-         recur(root,target);
-         
-         return resultList;
-     }
-     
-     public void recur(TreeNode root,target){
-         
-        if(root==null){
-            return;
-        }    
-        
-        path.add(root.val);
-        
-        target -=root.val;
-        
-        // 当target值为0 且左右节点为空时表示该路径为符合条件的最深路径
-        if(target == 0 && root.left == null && root.right == null){
-            // 这步一定要new LinkedList(path) 不然path塞的是空
-            resultList.add(new LinkedList(path));
-        }
-        
-        recur(root.left,target);
-        
-        recur(root.right,target);
-        
-        path.removeLast();
-     }
+  public List<List<Integer>> pathSum(TreeNode root, int target) {
+
+    recur(root, target);
+
+    return resultList;
+  }
+
+  public void recur(TreeNode root, target) {
+
+    if (root == null) {
+      return;
+    }
+
+    path.add(root.val);
+
+    target -= root.val;
+
+    // 当target值为0 且左右节点为空时表示该路径为符合条件的最深路径
+    if (target == 0 && root.left == null && root.right == null) {
+      // 这步一定要new LinkedList(path) 不然path塞的是空
+      resultList.add(new LinkedList(path));
+    }
+
+    recur(root.left, target);
+
+    recur(root.right, target);
+
+    path.removeLast();
+  }
+}
 ```
 ### 面试题36-二叉搜索树与双向链表
 > 1. 考察dfs中序遍历；(具体应该是二叉树的中序遍历，二叉树的中序和后序都可以看作是DFS，因为他们在找到叶子节点前一直遍历)
@@ -467,39 +474,42 @@ cur.left = pre;
 > 7. 保存当前cur节点的值，更新pre=cur,往前移位；
 > 8. 当dfs遍历完成后修改头尾指针`head.left = pre` pre指向尾节点；`pre.right = head` head指向头节点；
 ```java
-Node pre,head;
-public Node treeToDoublyList(Node root){
-   if(root = =null){
-       return null;
-   }   
-   
-   dfs(root);
-   
-   head.left = pre;
-   pre.right = head;
-   
-   return head;
-}
+public class Solution() {
+  Node pre, head;
 
-public void dfs(Node cur){
-   if(cur == null){
-       return;
-   }
-   
-   dfs(cur.left);
-   
-   if (pre == null){
-       head =cur;
-   } else {
-       pre.right = cur; 
-   }
-   
-   cur.left = pre;
-   
-   pre = cur;
-   
-   dfs(cur.right);
-   
+  public Node treeToDoublyList(Node root) {
+    if (root = =null){
+      return null;
+    }
+
+    dfs(root);
+
+    head.left = pre;
+    pre.right = head;
+
+    return head;
+  }
+
+  public void dfs(Node cur) {
+    if (cur == null) {
+      return;
+    }
+
+    dfs(cur.left);
+
+    if (pre == null) {
+      head = cur;
+    } else {
+      pre.right = cur;
+    }
+
+    cur.left = pre;
+
+    pre = cur;
+
+    dfs(cur.right);
+
+  }
 }
 ```
 
@@ -781,7 +791,7 @@ __反序列化(Deserialize)__
     }
 ```
 
-### 面试题54-二叉搜索树的第k大节点
+### 面试题54-二叉搜索树的第k大节点（较为陌生 回顾下）
 > 本文解法基于此性质：二叉搜索树的中序遍历为 <strong>递增序列</strong> 。
 
 __解法一__
@@ -870,7 +880,68 @@ __解法二__
 
 ```
 
+### 68-1 二叉搜索树的最近公共祖先
+> 利用二叉搜索树的属性，根节点的左侧都比根节点小，根节点的右侧都比根节点大
 
+解题思路
+
+* 条件是 ___二叉搜索树___ 
+* 树的节点值都是唯一的
+* 因此可以得到以下关系：
+  * 若 ___root.val > p.val___ 则p在root的 __左子树__
+  * 若 ___root.val < p.val___ 则p在root的 __右子树__
+  * 若 ___root.val = p.val___ 则p和root指向同一节点，则返回root
+  
+```java
+public class Solution() {
+  /**
+   * 方法一 迭代
+   *
+   * @param root
+   * @param p
+   * @param q
+   * @return
+   */
+  public TreeNode lowestCommonAncestorByIteration(TreeNode root, TreeNode p, TreeNode q) {
+    while (root != null) {
+      if (root.val > p.val && root.val > q.val) {
+        root = root.left;
+      } else if (root.val < p.val && root.val < q.val) {
+        root = root.right;
+      } else {
+        return root;
+      }
+    }
+    return root;
+  }
+
+  /**
+   * 方法二 递归
+   *
+   * @param root
+   * @param p
+   * @param q
+   * @return
+   */
+  public TreeNode lowestCommonAncestorByRecursive(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null) {
+      return null;
+    }
+
+    if (root.val > p.val && root.val > q.val) {
+      return lowestCommonAncestorByRecursive(root.left, p, q);
+    }
+
+    if (root.val < p.val && root.val < q.val) {
+      return lowestCommonAncestorByRecursive(root.right, p, q);
+    }
+
+    return root;
+  }
+}
+```
+
+### 68-2 二叉树的最近公共祖先
 
 ## Stack & Queue
 
