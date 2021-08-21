@@ -802,6 +802,7 @@ __反序列化(Deserialize)__
 ### 面试题54-二叉搜索树的第k大节点（较为陌生 回顾下）
 > 本文解法基于此性质：二叉搜索树的中序遍历为 <strong>递增序列</strong> 。
 
+
 __解法一__
 * dfs中序遍历的倒序为递减数组；
 ```java
@@ -811,6 +812,8 @@ public void dfs(TreeNode root){
     dfs(root.left);
 }
 ```
+* 因此可以看作是求此树中序遍历倒序的第 _k_ 个节点
+
 * 递归解析
   * 1. __终止条件__： 当节点 root 为空（越过叶节点），则直接返回；
   * 2. __递归右子树__： 即 _dfs(root.right)_ ；
@@ -950,6 +953,60 @@ public class Solution() {
 ```
 
 ### 68-2 二叉树的最近公共祖先
+> 此题为二叉树，非二叉搜索树，无法运用二叉搜索树的特性，因此只能左右节点一起遍历去寻找
+
+__祖先的定义__:
+  
+* 若节点 p 在节点 root 的左（右）子树中，或 p = root ，则称 root 是 p 的祖先
+
+__最近的公共祖先__:
+
+* 设节点root为节点p,q的某公共祖先,若其左子节点 _root.left_ 和右子节点 _root.right_ 都不是 _p,q_ 的公共祖先，则称 _root_ 是“最近的公共祖先”；
+
+
+__根据定义可得__：
+* 1.  `p` 和 `q` 在`root`节点的两侧，既 __异侧__;
+* 2. `p = root`;
+* 3. `q = root`;
+  
+```java
+public class Sword68Two {
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+
+        // 如果树为空直接返回，或者是p q为空的情况 此时root就是最近的祖先节点
+        if (root == null || root == p || root == q) {
+            return root;
+        }
+
+        // 开启递归左节点,若找到则返回
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+
+        // 开启递归右节点
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+
+        // 左右节点都为空的情况 说明p 和 q 都不在 返回
+        if (left == null && right == null) {
+            return null;
+        }
+
+        // 左节点为空 去右节点寻找，左侧就终止
+        if (left == null) {
+            return right;
+        }
+
+        // 右节点为空的话 就去左侧寻找，右侧就终止
+        if (right == null) {
+            return left;
+        }
+
+        // 最终返回的是左右节点都不为空的情况，p和q都在root的异侧
+        return root;
+    }
+}
+
+```
 
 ## Stack & Queue
 
