@@ -70,17 +70,44 @@ public class Solution() {
 }
 ```
 
-### 面试题22-链表中倒数第k个结点
+### 面试题22-链表中倒数第k个结点 (使用快慢指针， 栈的方式速度略慢)
+__原理__ 
+* 初始化快慢指针 _fast_  _slow_;
+* 设置步长 `int step = 0 ` ;
+* 慢指针走(n-k) 步 即可找到第K个节点  因此 当 `step >= k `时slow指针的下一步即是节点
+
+```java
+public class Sword22 {
+
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        ListNode fast = head, slow = head;
+
+        int step = 0;
+
+        while (fast != null) {
+            if (step >= k) {
+                slow = slow.next;
+            }
+
+            fast = fast.next;
+            step++;
+        }
+        return slow;
+    }
+
+}
+```
+
 
 ### 面试题24-反转链表
 > 1. 双指针进行头尾节点的指向；
-> 2. 初始化`pre=null`;
-> 3. 保存head为cur `ListNode cur =head`;
+> 2. 初始化`pre = null`;
+> 3. 保存head为cur `ListNode cur = head`;
 > 4. 当cur不为空时进行指针的指向反转;
 > 5. 保存下一个节点的值`tmp = cur.next`;
 > 6. 下一节点指向pre cur.next =pre;
-> 7. pre指针前移一位 `pre=cur`;
-> 8. 当前指针 cur指向之前保存的下一节点 `cur =tmp`;
+> 7. pre指针前移一位 `pre = cur`;
+> 8. 当前指针 cur指向之前保存的下一节点 `cur = tmp`;
 > 9. 最终返回pre开始的链表;
 ```java
 /**
