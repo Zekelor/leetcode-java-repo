@@ -98,7 +98,6 @@ public class Sword22 {
 }
 ```
 
-
 ### 面试题24-反转链表
 > 1. 双指针进行头尾节点的指向；
 > 2. 初始化`pre = null`;
@@ -129,6 +128,70 @@ public ListNode reverseListNode(ListNode head){
 ```
 
 ### 面试题25-合并两个排序的链表
+方法一 递归法：
+```java
+public class Solution{
+    
+    public LitNode mergeTwoLists(ListNode l1,ListNode l2){
+        if(l1 == null){
+            return l2;
+        }    
+        
+        if(l2 ==null){
+            return l1;
+        }
+        
+        if(l1.val<l2.val){
+            l1.next =mergeTwoLists(l1.next,l2);
+            return l1;
+        }else {
+            l2.next =mergeTwoLists(l1,l2.next);
+            return l2;
+        }
+        
+    }
+    
+}
+```
+
+方法二 迭代法：
+
+1. __初始化__: 定义伪头节点head，节点cur 指向head;
+
+> 1. `cur` 和 `head`是引用类型 指向某节点，但是 cur 和 head 是两个独立的变量，保存此节点的值，当改变cur时，head 仍指向这个节点
+> 2. `cur` 和 `head` 都是同一个引用地址，但每次改变cur的值 cur = cur.next 去指向一个新的节点进行添加操作，这样回修改引用的值变量，所以 head 
+> 值也是改变的，只不过cur只指向一个节点，而head是从头开始的整个链表
+
+```java
+public class Solution{
+    public ListNode mergerTwoLists(ListNode l1,ListNode l2){
+        ListNode head = new ListNode(0),cur = head;
+        
+        while(l1 !=null && l2 != null){
+            
+            if(l1.val <l2.val){
+                cur.next =l1;
+                l1 = l1.next;
+            } else {
+                cur.next= l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+        
+        if(l1 == null){
+            cur.next =l2;
+        }
+        
+        if(l2 == null){
+            cur.next =l1;
+        }
+        
+        return head.next;
+    }
+    
+}
+```
 
 ### 面试题35-复杂链表的复制
 
