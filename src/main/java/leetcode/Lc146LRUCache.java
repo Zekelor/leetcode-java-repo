@@ -27,14 +27,13 @@ public class Lc146LRUCache {
     }
 
     public int get(int key) {
-
         // 如果key存在，则输出key ，否则输出 -1
         if (!map.containsKey(key)) {
             return -1;
         } else {
-            int val = map.get(key).val;
-            // 利用put 将数据提前
-            put(key, val);
+            Node node = map.get(key);
+            int val = node.val;
+            cache.moveToHead(node);
             return val;
         }
 
@@ -46,10 +45,7 @@ public class Lc146LRUCache {
 
         // 若存在key，则删除旧的数据，将新的放到头部
         if (map.containsKey(key)) {
-            // 删除旧的数据
-            cache.remove(map.get(key));
-            // 将新节点x插入到头部
-            cache.addFirst(node);
+            cache.moveToHead(node);
             // 更新map中对应的数据
             map.put(key, node);
         } else {
@@ -147,6 +143,11 @@ public class Lc146LRUCache {
             remove(tempTail);
 
             return tempTail;
+        }
+
+        public void moveToHead(Node node){
+            removeLast();
+            addFirst(node);
         }
 
 
