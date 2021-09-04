@@ -45,12 +45,13 @@ public class Lc146LRUCache {
 
         // 若存在key，则删除旧的数据，将新的放到头部
         if (map.containsKey(key)) {
-            cache.moveToHead(node);
+            cache.remove(map.get(key));
+            cache.addFirst(node);
             // 更新map中对应的数据
             map.put(key, node);
         } else {
             // 如果cache已满
-            if (cap >= cache.size) {
+            if (cap == cache.size()) {
                 // 删除尾节点
                 // 删除map中映射到该数据的键
                 Node lastNode = cache.removeLast();
@@ -98,9 +99,9 @@ public class Lc146LRUCache {
             head = new Node(0, 0);
             tail = new Node(0, 0);
             // 头节点指向尾部
-            head.pre = tail;
+            head.next = tail;
             // 尾节点指向头部
-            tail.next = head;
+            tail.pre = head;
             size = 0;
         }
 
@@ -110,12 +111,6 @@ public class Lc146LRUCache {
          * @param node
          */
         public void addFirst(Node node) {
-//            Node headNext = head.next;
-//            head.next = x;
-//            headNext.pre = x;
-//            x.pre = head;
-//            x.next = headNext;
-            // head <-> [pre]node <-> head.next 插入值1.pre 指向head
             node.pre = head;
 
             // node.next 指向head.next
@@ -138,15 +133,15 @@ public class Lc146LRUCache {
         }
 
         public Node removeLast() {
-            Node tempTail = tail;
+            Node tempTail = tail.pre;
 
             remove(tempTail);
 
             return tempTail;
         }
 
-        public void moveToHead(Node node){
-            removeLast();
+        public void moveToHead(Node node) {
+            remove(node);
             addFirst(node);
         }
 
