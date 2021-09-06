@@ -7,7 +7,7 @@ import common.TreeNode;
  * @date 2021/8/19
  * @since IntelliJ IDEA
  */
-public class Lc124 {
+public class Lc124MaxPathSum {
 
     private int ret = Integer.MIN_VALUE;
 
