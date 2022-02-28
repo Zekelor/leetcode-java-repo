@@ -1,7 +1,5 @@
 package leetcode;
 
-import com.sun.deploy.util.StringUtils;
-
 /**
  * @author fxzou
  * @date 2021/8/23
@@ -10,7 +8,8 @@ import com.sun.deploy.util.StringUtils;
 public class Lc215QuickSort {
 
     public static void main(String[] args) {
-        System.out.println(findKthLargest2(new int[]{3, 2, 1, 5, 6, 4}, 2));;
+        //System.out.println(findKthLargest2(new int[]{3, 2, 1, 5, 6, 4}, 2));
+        System.out.println(findKthLargest2(new int[]{-2,3,-5}, 2));
     }
 
     public static int findKthLargest2(int[] nums, int k) {
