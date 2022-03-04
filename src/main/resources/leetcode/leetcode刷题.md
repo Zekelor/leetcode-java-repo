@@ -3,24 +3,30 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [ListNode](#listnode)
-  - [25.K个一组翻转链表](#25k%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8)
+    - [25.K个一组翻转链表](#25k%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8)
 - [Tree](#tree)
-  - [124.二叉树的最大路径和](#124%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C)
+    - [124.二叉树的最大路径和](#124%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Hash相关
 
 ### 1.两数之和
 
 ### q387.字符串中的第一个唯一字符
 
-
 ## 链表操作
+
 ### q2.两数相加
+
 ### q19.删除链表的倒数第N个节点
+
 ### q25.k个一组翻转链表
+
 ### q61.旋转链表
+
 ### q138.复制带随机指针的链表
+
 ### q206.反转链表
 
 ## Tree
@@ -44,13 +50,13 @@ void traverse(TreeNode root){
 ```
 
 * __递归函数__:
-	* `dfs(TreeNode node)` 函数目的是向父节点提供最大的路径和；
-	* 当前子树的收益情况分为三种：
-		* 当前节点值，`node.val`
-		* 当前节点 + 左侧节点的值 `node.val+dfs(node.left)`
-		* 当前节点 + 右侧节点的值 `node.val + dfs(node.right)`
-	* 在每次递归时都要更新下全局的最大值，下一次递归与当前存储的做比较选择最大的 `Math.max(ret,left + right + node.val)`
-	* __返回__: 最终的返回值选择当前能够提供的最大路径，同时要包含当前节点 `Math.max(left,right)+node.val`
+    * `dfs(TreeNode node)` 函数目的是向父节点提供最大的路径和；
+    * 当前子树的收益情况分为三种：
+        * 当前节点值，`node.val`
+        * 当前节点 + 左侧节点的值 `node.val+dfs(node.left)`
+        * 当前节点 + 右侧节点的值 `node.val + dfs(node.right)`
+    * 在每次递归时都要更新下全局的最大值，下一次递归与当前存储的做比较选择最大的 `Math.max(ret,left + right + node.val)`
+    * __返回__: 最终的返回值选择当前能够提供的最大路径，同时要包含当前节点 `Math.max(left,right)+node.val`
 
 ```java
 public class Lc124 {
@@ -87,19 +93,60 @@ public class Lc124 {
 ```
 
 ## 双指针遍历/滑动窗口
-###q3_无重复字符的最长子串
-###q11_盛最多水的容器
-###q15_三数之和
-###q16_最接近的三数之和
-###q26_删除排序数组中的重复项
-###q42_接雨水
-###q121_买卖股票的最佳时机
-###q209_长度最小的子数组
+
+### q3_无重复字符的最长子串
+
+### q11_盛最多水的容器
+
+### q15_三数之和
+
+### q16_最接近的三数之和
+
+### q26_删除排序数组中的重复项
+
+### q42_接雨水
+
+### q121_买卖股票的最佳时机
+
+### q209_长度最小的子数组
 
 ## 快慢指针遍历
-###q141_环形链表
-###q202_快乐数
-###q876_链表的中间结点
+
+### q141_环形链表
+
+* __快慢指针__
+
+```java
+publi
+
+class Solution {
+
+    public boolean hasCycle(ListNode head) {
+
+        if (head == null || head.next == null) {
+            return false;
+        }
+
+        ListNode slow = head;
+        ListNode fast = head.next;
+
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
+                return false;
+            }
+
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
+    }
+
+}
+```
+
+### q202_快乐数
+
+### q876_链表的中间结点
 
 
 
