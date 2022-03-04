@@ -8,14 +8,13 @@ package leetcode;
 public class Lc53MaxSubArray {
 
     public int maxSubArray(int[] nums) {
-        int pre = 0, maxNum = nums[0];
+        int pre = 0;
+        int res = nums[0];
 
-        for (int x : nums) {
-            pre = Math.max(pre + maxNum, maxNum);
-
-            maxNum = Math.max(maxNum, pre);
+        for(int num :nums){
+            pre = Math.max(pre + num, num);
+            res = Math.max(res, pre);
         }
-
-        return maxNum;
+        return res;
     }
 }
