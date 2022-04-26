@@ -94,36 +94,49 @@ class Solution {
 
     /**
      * 反转打印
+     *
      * @param head
      * @return
      */
     public static int[] reversePrint(ListNode head) {
 
-        ListNode pre=null;
-        ListNode next=null;
+        ListNode pre = null;
+        ListNode next = null;
 
-        int count=0;
+        int count = 0;
 
-        while(head!=null){
-            next =head.next;
-            head.next=pre;
-            pre=head;
-            head=next;
+        while (head != null) {
+            next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
             count++;
         }
 
-        int[] size=new int[count];
+        int[] size = new int[count];
 
-        for(int i=0;i<count;--i){
-            size[i]=head.val;
-            head=head.next;
+        for (int i = 0; i < count; --i) {
+            size[i] = head.val;
+            head = head.next;
         }
 
         return size;
     }
 
     public static void main(String[] args) {
+        System.out.println(judgeNumber(0.912));
 
+        System.out.println(quickSort(new int[]{3, 2, 1, 5, 6, 4}));
+    }
+
+    /**
+     * 低于0.1的print（1)，高于0.9的print（2），其他print（3）
+     *
+     * @param x
+     * @return
+     */
+    public static int judgeNumber(double x) {
+        return x < 0.1 ? 1 : x > 0.1 && x < 0.9 ? 2 : 3;
     }
 
     class ListNode {
